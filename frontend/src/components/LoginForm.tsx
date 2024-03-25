@@ -14,6 +14,9 @@ const LoginForm = ({onLogin}:Props) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
+
+  //handlesubmit is the event that happens when logging in
+  //onlogin uses login-handler from app.tsx and adds right values from loginform state as well as the event
   const handleSubmit = (event: SyntheticEvent) =>{
     event.preventDefault();
     onLogin(username,password);

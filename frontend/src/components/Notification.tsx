@@ -1,6 +1,6 @@
 
 interface Props {
-  notification: string
+  notification: string|null
 }
 const Notification = ({notification}:Props) => {
   const notificationStyle = {

@@ -23,7 +23,7 @@ router.post('/', async (request, response) => {
   };
   
   const token = jwt.sign
-  (userForToken, process.env.SECRET ,
+  (userForToken, process.env.SECRET as Secret,
     { expiresIn:60*60 });
 
   return response
