@@ -1,6 +1,7 @@
 import { useState } from 'react';
 
 import { User } from '../types';
+import ResponsiveAppBar from './ResponsiveAppBar';
 
 interface Props {
     user: User

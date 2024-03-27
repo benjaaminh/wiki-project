@@ -11,6 +11,7 @@ import Notification from './components/Notification';
 import { User } from './types';
 import UserList from './components/UserList';
 import UserPage from './components/User';
+import ResponsiveAppBar from './components/ResponsiveAppBar';
 const App = () => {
   const [user, setUser] = useState<User|null>(null);
   const [users, setUsers] = useState<User[]>([])
@@ -59,38 +60,10 @@ const App = () => {
   };
   
 
-  const logoutButton = () => <Button onClick={handleLogout}>logout</Button>;
-
   return (
-    <div className="container">
-      <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
-        <Navbar.Toggle aria-controls="responsive-navbar-nav" />
-        <Navbar.Collapse id="responsive-navbar-nav">
-          <Nav className="me-auto">
-            <Nav.Link href="#" as="span">
-              <Link style={padding} to="/">
-                home
-              </Link>
-            </Nav.Link>
-            <Nav.Link href="#" as="span">
-              <Link style={padding} to="/users">
-                users
-              </Link>
-            </Nav.Link>
-            <Nav.Link href="#" as="span">
-              {user ? (
-                <em style={padding}>
-                  {user.username} logged in {logoutButton()}
-                </em>
-              ) : (
-                <Link style={padding} to="/login">
-                  login
-                </Link>
-              )}
-            </Nav.Link>
-          </Nav>
-        </Navbar.Collapse>
-      </Navbar>
+    <div>
+      <ResponsiveAppBar user={user} onLogout={handleLogout}/>
+
       <Notification notification={notification} />
       {!user && ( //if no user is logged in, render this
         <div>
