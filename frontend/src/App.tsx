@@ -66,16 +66,11 @@ const App = () => {
 
       <Notification notification={notification} />
       {!user && ( //if no user is logged in, render this
-        <div>
-          <h2>Log in to application</h2>
-
           <LoginForm onLogin={handleLogin} />
-        </div>
       )}
 
       {user && ( //if a user is logged in, render this
         <div>
-          <h2>Wiki</h2>
           <Routes>
             <Route path="/" element={<Home user={user} />} />
             <Route path="/login" element={<LoginForm onLogin={handleLogin}/>} />
