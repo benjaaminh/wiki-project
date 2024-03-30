@@ -2,6 +2,7 @@ import {
   useMatch,
 } from "react-router-dom";
 import { User } from "../types";
+import { CssBaseline } from "@mui/material";
 interface Props {
     users: User[] 
 }
@@ -19,6 +20,7 @@ const UserPage = ({ users }: Props) => {
 
   return (
     <div>
+          <CssBaseline />
       <h1>{user.name}</h1>
       <h3>posts</h3>
     </div>

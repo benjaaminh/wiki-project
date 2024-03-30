@@ -3,7 +3,13 @@ import {
   Link,
 } from "react-router-dom";
 import { User } from "../types";
-
+import { useState } from 'react';
+import ResponsiveAppBar from './ResponsiveAppBar';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import Container from '@mui/material/Container';
+import CssBaseline from '@mui/material/CssBaseline';
+import Box from '@mui/material/Box';
+import { Typography } from '@mui/material';
 interface Props {
     users: User[] | undefined
 }
@@ -12,15 +18,17 @@ const UserList = ({ users }: Props) => {
     if (!users) {
       return <div>No users found</div>; // Or any other message you want to display
     }
+    const  defaultTheme = createTheme()
   
     return (
-      <div>
-        <h2>users</h2>
+      <ThemeProvider theme={defaultTheme}>
+      <Container component="main" maxWidth="xs">
+      <CssBaseline /> {/*so the appbar is stuck to the top of the page */}
+      <h2>users</h2>
         <table>
           <tbody>
             <tr>
               <td></td> {/*empty cell to make the second above amount*/}
-              <td>users</td>
             </tr>
             {users.map((user) => (
               <tr key={user.id}>
@@ -31,7 +39,8 @@ const UserList = ({ users }: Props) => {
             ))}
           </tbody>
         </table>
-      </div>
+        </Container>
+      </ThemeProvider>
     );
   };
   
