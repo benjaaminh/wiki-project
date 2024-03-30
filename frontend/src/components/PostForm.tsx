@@ -13,22 +13,28 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { Post } from "../types";
 interface Props {
-  onLogin: (username: string, password: string) => void
+  createPost: (post: Post) => void
 }
-//user is broken when adding post???
-const LoginForm = ({onLogin}:Props) => {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
 
+const PostForm = ({createPost}:Props) => {
+  const [title, setTitle] = useState('');
+  const [content, setContent] = useState('');
+  const [imgSrc, setImgSrc] = useState('')
 
-  //handlesubmit is the event that happens when logging in
-  //onlogin uses login-handler from app.tsx and adds right values from loginform state as well as the event
   const handleSubmit = (event: SyntheticEvent) =>{
     event.preventDefault();
-    onLogin(username,password);
+    createPost({
+        title:title,
+        content:content,
+        imgSrc:imgSrc,
+    })
+    setTitle('')
+    setContent('')
+    setImgSrc('')
   };  
- const  defaultTheme = createTheme()
+ const defaultTheme = createTheme()
   return (
     <div>
     <ThemeProvider theme={defaultTheme}>
@@ -42,34 +48,40 @@ const LoginForm = ({onLogin}:Props) => {
           alignItems: 'center',
         }}
       >
-        <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-        </Avatar>
         <Typography component="h1" variant="h5">
-          Sign in
+          create post
         </Typography>
         <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
           <TextField
             margin="normal"
             required
             fullWidth
-            id="email"
-            label="Email Address"
-            name="email"
-            autoComplete="email"
+            id="title"
+            label="Title of post"
+            name="title"
             autoFocus
-            value={username}
-            onChange={({target})=>setUsername(target.value)}
+            value={title}
+            onChange={({target})=>setTitle(target.value)}
           />
           <TextField
             margin="normal"
             required
             fullWidth
-            name="password"
-            label="Password"
-            type="password"
-            id="password"
-            autoComplete="current-password"
-            value={password} onChange={({target})=>setPassword(target.value)}
+            name="content"
+            label="Text content"
+            id="content"
+            value={content} onChange={({target})=>setContent(target.value)}
+          />
+             <TextField
+            margin="normal"
+            required
+            fullWidth
+            id="imgsrc"
+            label="Source of image"
+            name="imgsrc"
+            autoFocus
+            value={imgSrc}
+            onChange={({target})=>setImgSrc(target.value)}
           />
           <Button
             type="submit"
@@ -77,18 +89,14 @@ const LoginForm = ({onLogin}:Props) => {
             variant="contained"
             sx={{ mt: 3, mb: 2 }}
           >
-            Sign In
+            Submit post
           </Button>
         </Box>
       </Box>
     </Container>
   </ThemeProvider>
-
-
-
-   
     </div>
   );
 };
 
-export default LoginForm;
+export default PostForm;

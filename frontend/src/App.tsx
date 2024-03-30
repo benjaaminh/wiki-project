@@ -8,15 +8,18 @@ import userService from './services/users'
 import LoginForm from './components/LoginForm';
 import Home from './components/Home';
 import Notification from './components/Notification';
-import { User } from './types';
+import { Post, User } from './types';
 import UserList from './components/UserList';
 import UserPage from './components/User';
 import ResponsiveAppBar from './components/ResponsiveAppBar';
+import postService from './services/posts'
+import PostList from './components/PostList';
+import PostPage from './components/Post';
 const App = () => {
   const [user, setUser] = useState<User|null>(null);
   const [users, setUsers] = useState<User[]>([])
   const [notification, setNotification] = useState<string|null>(null);
-
+  const [posts, setPosts] = useState<Post[]>([])
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedWikiAppUser');
     if (loggedUserJSON) {
@@ -31,6 +34,17 @@ const App = () => {
       setUsers(users)
     )
   }, [])
+  useEffect(() => {
+    postService.getAll().then(posts =>
+      setPosts(posts)
+    )
+  }, [])
+
+  const addPost = async (postObject : Post) => {
+    const post = await postService
+    .create(postObject)
+    setPosts(posts.concat(post))
+  }
 
   
   const handleLogin = async (username: string, password: string) => {//handling login without event, passed to loginform component to handle state
@@ -76,6 +90,8 @@ const App = () => {
             <Route path="/login" element={<LoginForm onLogin={handleLogin}/>} />
             <Route path="/users" element={<UserList users={users}/>}/>
             <Route path="/users/:id" element={<UserPage users={users}/>} />
+            <Route path="/posts" element={<PostList posts={posts} createPost={addPost}/>}/>
+            <Route path="/posts/:id" element={<PostPage posts={posts}/>}/>
           </Routes>
         </div>
       )}

@@ -5,8 +5,9 @@ import cors from 'cors';
 //import blogsRouter from './controllers/blogs'
 import usersRouter from './controllers/users';
 import loginRouter from './controllers/login';
+import postsRouter from './controllers/posts'
 //import commentsRouter from './controllers/comments'
-import { tokenExtractor, requestLogger, unknownEndpoint } from './utils/middleware';
+import { tokenExtractor, requestLogger, unknownEndpoint, userExtractor } from './utils/middleware';
 import {info} from './utils/logger';
 import mongoose from 'mongoose';
 const app = express();
@@ -37,6 +38,7 @@ app.use(tokenExtractor);
 //app.use('/api/posts', userExtractor, blogsRouter, commentsRouter)
 app.use('/api/users', usersRouter);
 app.use('/api/login', loginRouter);
+app.use('/api/posts', userExtractor, postsRouter)
 
 if (process.env.NODE_ENV === 'test') {
   const testingRouter = require('./controllers/testing');

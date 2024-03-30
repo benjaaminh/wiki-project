@@ -32,7 +32,7 @@ router.post('/', async (request, response) => {
 
 router.get('/', async (_request, response) => {
   const users = await User
-    .find({});
+    .find({}).populate('posts');
   response.json(users);
 });
 

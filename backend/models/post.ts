@@ -1,5 +1,5 @@
-import { time } from 'console';
 import {Schema, model, Document} from 'mongoose';
+import { IUser } from './user';
 //import uniqueValidator from 'mongoose-unique-validator'
 
 export interface IPost extends Document {
@@ -8,6 +8,7 @@ export interface IPost extends Document {
     dateEdited: Date;
     content: string;
     imgSrc: string;
+    user: IUser
 }
 const postSchema = new Schema<IPost>({
   title: {
@@ -31,6 +32,10 @@ const postSchema = new Schema<IPost>({
   },
   imgSrc: {
     type: String
+  },
+  user:{
+    type: Schema.Types.ObjectId,
+    ref:'User'
   }
 });
 //userSchema.plugin(uniqueValidator)
@@ -40,7 +45,6 @@ postSchema.set('toJSON', {
     returnedObject.id = returnedObject._id.toString();
     delete returnedObject._id;
     delete returnedObject.__v;
-    // the passwordHash should not be revealed  }
 }});
 
 export const Post = model<IPost>('Post', postSchema);

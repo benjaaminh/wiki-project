@@ -1,9 +1,10 @@
 import express from 'express';
-import bcryptPackage from 'bcrypt';
 import {Post, IPost} from '../models/post';
 const router = express.Router();
 router.post('/', async (request, response) => {
   const { title, datePosted, dateEdited, content, imgSrc } = request.body;
+  const user = (request as any).user
+  console.log(user)
 
   if (!title){
     return response.status(400).json({
@@ -16,23 +17,24 @@ router.post('/', async (request, response) => {
     });
   }
 
-
   const post : IPost = new Post({
     title,
     content,
     datePosted,
     dateEdited,
-    imgSrc
+    imgSrc,
+    user
   });
 
   const savedPost = await post.save();
-
+  user.posts.concat(savedPost._id)
+  await user.save()
   return response.status(201).json(savedPost);
 });
 
 router.get('/', async (_request, response) => {
   const posts = await Post
-    .find({});
+    .find({}).populate('user')
   response.json(posts);
 });
 

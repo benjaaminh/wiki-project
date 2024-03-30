@@ -1,10 +1,12 @@
 import {Schema, model, Document} from 'mongoose';
+import { IPost } from './post';
 //import uniqueValidator from 'mongoose-unique-validator'
 
 export interface IUser extends Document {
     username: string;
     name: string;
-    passwordHash: string
+    passwordHash: string;
+    posts: IPost[]; //check type whether mongoose schema types objectid or this, also check in post.ts
 }
 const userSchema = new Schema<IUser>({
   username: {
@@ -15,6 +17,12 @@ const userSchema = new Schema<IUser>({
   },
   name: String,
   passwordHash: String,
+  posts: [
+    {
+      type: Schema.Types.ObjectId,
+      ref:'Post'
+    }
+  ]
 });
 //userSchema.plugin(uniqueValidator)
 
