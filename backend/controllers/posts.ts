@@ -4,7 +4,7 @@ const router = express.Router();
 router.post('/', async (request, response) => {
   const { title, datePosted, dateEdited, content, imgSrc } = request.body;
   const user = (request as any).user
-  console.log(user)
+  //console.log(user)
 
   if (!title){
     return response.status(400).json({
@@ -27,7 +27,7 @@ router.post('/', async (request, response) => {
   });
 
   const savedPost = await post.save();
-  user.posts.concat(savedPost._id)
+  user.posts.push(savedPost._id)//concat?
   await user.save()
   return response.status(201).json(savedPost);
 });

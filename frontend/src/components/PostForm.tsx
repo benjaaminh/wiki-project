@@ -26,13 +26,11 @@ const PostForm = ({createPost}:Props) => {
   const handleSubmit = (event: SyntheticEvent) =>{
     event.preventDefault();
     createPost({
-        title:title,
-        content:content,
-        imgSrc:imgSrc,
+        title,//title:title etc
+        content,
+        imgSrc,
     })
-    setTitle('')
-    setContent('')
-    setImgSrc('')
+    //settitle ('')etc
   };  
  const defaultTheme = createTheme()
   return (

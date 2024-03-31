@@ -58,6 +58,7 @@ if (token)
       }
   const decodedToken = jsonwebtoken.verify(token, process.env.SECRET) as { id: string };
   const user= await User.findById(decodedToken.id);  
+ // console.log(user)
   if (user) {
     req.user = user;
   } else {
