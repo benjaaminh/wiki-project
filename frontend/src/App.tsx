@@ -4,7 +4,7 @@ import { Navbar, Nav, Button } from 'react-bootstrap';
 import { Link, Route, Routes } from "react-router-dom";
 import wikiService from './services/posts';
 import loginService from './services/login';
-import userService from './services/users'
+import userService from './services/users';
 import LoginForm from './components/LoginForm';
 import Home from './components/Home';
 import Notification from './components/Notification';
@@ -12,39 +12,47 @@ import { Post, User } from './types';
 import UserList from './components/UserList';
 import UserPage from './components/User';
 import ResponsiveAppBar from './components/ResponsiveAppBar';
-import postService from './services/posts'
+import postService from './services/posts';
 import PostList from './components/PostList';
 import PostPage from './components/Post';
 const App = () => {
   const [user, setUser] = useState<User|null>(null);
-  const [users, setUsers] = useState<User[]>([])
+  const [users, setUsers] = useState<User[]>([]);
   const [notification, setNotification] = useState<string|null>(null);
-  const [posts, setPosts] = useState<Post[]>([])
+  const [posts, setPosts] = useState<Post[]>([]);
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedWikiAppUser');
+    
     if (loggedUserJSON) {
-      const user = JSON.parse(loggedUserJSON);
-      setUser(user);
-      wikiService.setToken(user.token);
+      const fetchUser = async () => {
+        const user = JSON.parse(loggedUserJSON);
+        setUser(user);
+        wikiService.setToken(user.token);
+      };
+      void fetchUser();
     }
-  }, []);
+   
+  
 
-  useEffect(() => {
-    userService.getAll().then(users =>
-      setUsers(users)
-    )
-  }, [])
-  useEffect(() => {
-    postService.getAll().then(posts =>
-      setPosts(posts)
-    )
-  }, [])
+  const fetchUsers = async () => {
+    const users = await userService.getAll();
+    setUsers(users);
+  
+  };
+  void fetchUsers();
+  const fetchPosts = async () => {
+    const posts = await postService.getAll();
+    setPosts(posts);
+    
+  };
+  void fetchPosts();
+}, []);
 
   const addPost = async (postObject : Post) => {
     const post = await postService
-    .create(postObject)
-    setPosts(posts.concat(post))
-  }
+    .create(postObject);
+    setPosts(posts.concat(post));
+  };
 
   
   const handleLogin = async (username: string, password: string) => {//handling login without event, passed to loginform component to handle state

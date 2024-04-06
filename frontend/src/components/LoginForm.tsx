@@ -28,7 +28,7 @@ const LoginForm = ({onLogin}:Props) => {
     event.preventDefault();
     onLogin(username,password);
   };  
- const  defaultTheme = createTheme()
+ const  defaultTheme = createTheme();
   return (
     <div>
     <ThemeProvider theme={defaultTheme}>

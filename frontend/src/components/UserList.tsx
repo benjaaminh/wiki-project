@@ -3,13 +3,9 @@ import {
   Link,
 } from "react-router-dom";
 import { User } from "../types";
-import { useState } from 'react';
-import ResponsiveAppBar from './ResponsiveAppBar';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Container from '@mui/material/Container';
 import CssBaseline from '@mui/material/CssBaseline';
-import Box from '@mui/material/Box';
-import { Typography } from '@mui/material';
 interface Props {
     users: User[] | undefined
 }
@@ -18,7 +14,7 @@ const UserList = ({ users }: Props) => {
     if (!users) {
       return <div>No users found</div>; // Or any other message you want to display
     }
-    const  defaultTheme = createTheme()
+    const  defaultTheme = createTheme();
   
     return (
       <ThemeProvider theme={defaultTheme}>

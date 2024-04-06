@@ -3,8 +3,7 @@ import {Post, IPost} from '../models/post';
 const router = express.Router();
 router.post('/', async (request, response) => {
   const { title, datePosted, dateEdited, content, imgSrc } = request.body;
-  const user = (request as any).user
-  //console.log(user)
+  const user = request.user;
 
   if (!title){
     return response.status(400).json({
@@ -27,14 +26,14 @@ router.post('/', async (request, response) => {
   });
 
   const savedPost = await post.save();
-  user.posts.push(savedPost._id)//concat?
-  await user.save()
+  user.posts.push(savedPost._id);//concat?
+  await user.save();
   return response.status(201).json(savedPost);
 });
 
 router.get('/', async (_request, response) => {
   const posts = await Post
-    .find({}).populate('user')
+    .find({}).populate('user');
   response.json(posts);
 });
 

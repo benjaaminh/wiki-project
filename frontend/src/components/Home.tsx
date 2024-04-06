@@ -12,7 +12,7 @@ interface Props {
 }
 const Home = ({user} : Props) => {
 
-  const  defaultTheme = createTheme()
+  const  defaultTheme = createTheme();
 
  return(
   <ThemeProvider theme={defaultTheme}>

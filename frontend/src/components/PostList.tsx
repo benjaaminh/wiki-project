@@ -22,7 +22,7 @@ import PostForm from "./PostForm";
             <PostForm createPost={createPost}/>
         ); // Or any other message you want to display
       }
-      const  defaultTheme = createTheme()
+      const  defaultTheme = createTheme();
     
       return (
         <ThemeProvider theme={defaultTheme}>

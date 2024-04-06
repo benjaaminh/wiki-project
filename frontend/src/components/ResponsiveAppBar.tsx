@@ -11,8 +11,8 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
-import { Link } from 'react-router-dom'
-import { Link as MuiLink } from '@mui/material'
+import { Link } from 'react-router-dom';
+import { Link as MuiLink } from '@mui/material';
 import { User } from '../types';
 //import AdbIcon from '@mui/icons-material/Adb';
 //todo check about this appbar stuff if materialui should be used or just react-bootstrap?
@@ -151,5 +151,5 @@ const ResponsiveAppBar = ({ user, onLogout }: Props) => {
       </Container>
     </AppBar>
   );
-}
+};
 export default ResponsiveAppBar;

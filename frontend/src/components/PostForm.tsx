@@ -21,7 +21,7 @@ interface Props {
 const PostForm = ({createPost}:Props) => {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
-  const [imgSrc, setImgSrc] = useState('')
+  const [imgSrc, setImgSrc] = useState('');
 
   const handleSubmit = (event: SyntheticEvent) =>{
     event.preventDefault();
@@ -29,10 +29,10 @@ const PostForm = ({createPost}:Props) => {
         title,//title:title etc
         content,
         imgSrc,
-    })
+    });
     //settitle ('')etc
   };  
- const defaultTheme = createTheme()
+ const defaultTheme = createTheme();
   return (
     <div>
     <ThemeProvider theme={defaultTheme}>

@@ -1,9 +1,14 @@
 import express from 'express';
-import jwt, { Secret } from 'jsonwebtoken';
+import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 import {User} from '../models/user';
+import { SECRET } from '../utils/config';
 const router = express.Router();
 router.post('/', async (request, response) => {
+  if (!SECRET) {
+    throw new Error('Secret key is not defined in the environment variables.');
+  }
+  console.log('secret',SECRET);
   const { username, password } = request.body;
 
   const user = await User.findOne({ username });
@@ -23,7 +28,7 @@ router.post('/', async (request, response) => {
   };
   
   const token = jwt.sign
-  (userForToken, process.env.SECRET as Secret,
+  (userForToken, SECRET,// as secret? idk
     { expiresIn:60*60 });
 
   return response

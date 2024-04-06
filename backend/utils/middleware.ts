@@ -1,76 +1,61 @@
-import { info, error } from './logger';
-import {User, IUser} from '../models/user';
-import jsonwebtoken from 'jsonwebtoken';
+import {info, error} from './logger'
+import {User} from '../models/user'
+import jwt from 'jsonwebtoken'
 import { NextFunction, Response, Request } from 'express';
-interface CustomRequest extends Request {
-    token?: string; // Assuming token is a string
-    user?: IUser
+import { SECRET } from './config';
+
+export const requestLogger = (request : Request, _response : Response, next: NextFunction) => {
+  info('Method:', request.method)
+  info('Path:  ', request.path)
+  info('Body:  ', request.body)
+  info('---')
+  next()
+}
+
+export const unknownEndpoint = (_request : Request, response : Response, _next: NextFunction) => {
+  response.status(404).send({ error: 'unknown endpoint' })
+}
+
+export const errorHandler = (err: Error, _request : Request, response : Response, next: NextFunction) => {
+  error(err.message)
+
+  if (err.name === 'CastError') {
+    return response.status(400).send({ error: 'malformatted id' })
+  } else if (err.name === 'ValidationError') {
+    return response.status(400).json({ error: err.message })
+  } else if (err.name ===  'JsonWebTokenError') {
+    return response.status(400).json({ error: err.message })
+  } else if (err.name === 'TokenExpiredError') {
+    return response.status(401).json({
+      error: 'token expired'    })
   }
 
-export const requestLogger = (req: Request, _res: Response, next: NextFunction) => {
-  info('Method:', req.method);
-  info('Path:  ', req.url);
- // info('Body:  ', req.body)
-  info('---');
-  next();
-};
+  return next(err)
+}
 
-
-
-export const unknownEndpoint = (_req: Request, res: Response) => {
-  res.status(404).send({ error: 'unknown endpoint' });
-};
-
-export const errorHandler = (_req: Request, res: Response, err: Error, next: NextFunction) => {
-  error(err.message);
-
-  if (error.name === 'CastError') {
-    return res.status(400).send({ error: 'malformatted id' });
-  } else if (error.name === 'ValidationError') {
-    return res.status(400).json({ error: err.message });
-  
-  } else if (error.name ===  'JsonWebTokenError') {
-    return res.status(400).json({ error: err.message });
-  } else if (error.name === 'TokenExpiredError') {
-    return res.status(401).json({
-      error: 'token expired'    });
-  }
-
-  return next(error);
-};
-
-export const tokenExtractor = (req: CustomRequest, _res: Response, next: NextFunction) =>{
-    const authorization = req.get('authorization'); //get token
+export const tokenExtractor = (request : Request, _response : Response, next: NextFunction) =>{
+    const authorization = request.get('authorization') //get token
     if (authorization && authorization.startsWith('Bearer ')){
-        req.token= authorization.replace('Bearer ', ''); //remove bearer to only include token
-    }
-
-next();
-};
-
-export const userExtractor = async (req: CustomRequest, _res: Response, next: NextFunction) => {
-  const token = req.token;
-if (token)
-{  
-    try {
-      if (!process.env.SECRET) {
-        throw new Error('Secret key is not defined in the environment variables.');
+      request.token= authorization.replace('Bearer ', '') //remove bearer to only include token
       }
-  const decodedToken = jsonwebtoken.verify(token, process.env.SECRET) as { id: string };
-  const user= await User.findById(decodedToken.id);  
- // console.log(user)
-  if (user) {
-    req.user = user;
-  } else {
-    // Handle case where user is not found
-    console.error('User not found for ID:', decodedToken.id);
-  }
-}
- catch (error) {
-    // Handle token verification errors
-    console.error('Token verification failed:', error);
-  }
 
-next();
+next()
 }
+
+export const userExtractor = async (request: Request, _response: Response, next: NextFunction) => {
+  const token = request.token;
+  if (token && SECRET) {
+    const decodedToken = jwt.verify(token, SECRET);
+    let userId: string;
+    if (typeof decodedToken === 'string') {
+      userId = decodedToken;
+    } else {
+      userId = decodedToken.id;
+    }
+    const user = await User.findById(userId);
+    if (user !== null) {
+      request.user = user;
+    }
+  }
+  next();
 };
