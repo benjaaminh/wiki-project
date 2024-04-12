@@ -60,9 +60,9 @@ const ResponsiveAppBar = ({ user, onLogout }: Props) => {
         <Toolbar disableGutters>
         {['flex','none'].map((displayValue,index)=> (
           <Typography
+          key={index}
           variant="h6"
           noWrap
-          component="a"
           sx={{
             mr: 2,
             display: { xs: displayValue, md: index === 0 ? 'none' : 'flex' },
@@ -129,9 +129,9 @@ const ResponsiveAppBar = ({ user, onLogout }: Props) => {
             
             ['flex', 'none'].map((displayValue, index) => (
             <Typography
+            key={index}
           variant="h6"
           noWrap
-          component="a"
           sx={{
             mr: 2,
             display: { xs: displayValue, md: index === 0 ? 'none' : 'flex' },

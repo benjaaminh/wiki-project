@@ -32,7 +32,6 @@ import PostForm from "./PostForm";
           <table>
             <tbody>
               <tr>
-                <td></td> {/*empty cell to make the second above amount*/}
               </tr>
               {posts.map((post) => (
                 <tr key={post.id}>

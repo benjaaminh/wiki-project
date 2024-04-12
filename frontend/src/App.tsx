@@ -94,7 +94,7 @@ const App = () => {
       {user && ( //if a user is logged in, render this
         <div>
           <Routes>
-            <Route path="/" element={<Home user={user} />} />
+            <Route path="/" element={<Home user={user} posts={posts} />} />
             <Route path="/login" element={<LoginForm onLogin={handleLogin}/>} />
             <Route path="/users" element={<UserList users={users}/>}/>
             <Route path="/users/:id" element={<UserPage users={users}/>} />

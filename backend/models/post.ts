@@ -36,7 +36,8 @@ const postSchema = new Schema<IPost>({
   user:{
     type: Schema.Types.ObjectId,
     ref:'User'
-  }
+  },
+
 });
 //userSchema.plugin(uniqueValidator)
 

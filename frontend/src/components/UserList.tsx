@@ -24,7 +24,6 @@ const UserList = ({ users }: Props) => {
         <table>
           <tbody>
             <tr>
-              <td></td> {/*empty cell to make the second above amount*/}
             </tr>
             {users.map((user) => (
               <tr key={user.id}>

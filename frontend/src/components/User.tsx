@@ -1,4 +1,5 @@
 import {
+  Link,
   useMatch,
 } from "react-router-dom";
 import { User } from "../types";
@@ -23,6 +24,20 @@ const UserPage = ({ users }: Props) => {
           <CssBaseline />
       <h1>{user.name}</h1>
       <h3>posts</h3>
+          <table>
+            <tbody>
+              <tr>
+                <td></td> {/*empty cell to make the second above amount*/}
+              </tr>
+              {user.posts?.map((post) => (
+                <tr key={post.id}>
+                  <td>
+                    <Link to={`/posts/${post.id}`}>{post.title}</Link>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
     </div>
   );
 };
