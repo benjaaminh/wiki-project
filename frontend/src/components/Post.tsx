@@ -9,7 +9,7 @@ interface Props {
 const PostPage = ({ posts }: Props) => {
 
   const match = useMatch("/posts/:id");
-
+  let imgSrc
   const post = match
     ? posts.find((post) => post.id === String(match.params.id)) //OBS! string, not number
     : null;
@@ -25,11 +25,15 @@ const PostPage = ({ posts }: Props) => {
 
     )
   }
-
+  if (post.img) {
+    //retrieve image using base64string of the images data
+    const base64String = btoa(String.fromCharCode(...new Uint8Array(post.img.data.data)));
+    imgSrc = `data:${post.img.contentType};base64,${base64String}`;
+  }
   return (
     <Container component="main" maxWidth="xl">
-    <CssBaseline />
-    <Box
+      <CssBaseline />
+      <Box
         sx={{
           marginTop: 4,
           display: 'flex',
@@ -37,15 +41,15 @@ const PostPage = ({ posts }: Props) => {
           alignItems: 'left',
         }}
       >
-    <Typography component="h1" variant="h4">
-    <h1>{post.title}</h1>
-      <p>{post.content}</p>
-      <img src={post.imgSrc} />
-      <p>date:{post.datePosted?.toString()}</p>
-      <p>created by: {post.user?.name} </p>
+        <Typography component="h1" variant="h4">
+          <h1>{post.title}</h1>
+          <p>{post.content}</p>
+          {post.img ? <img src={imgSrc} /> : <img src={post.imgSrc} />}
+          <p>date:{post.datePosted?.toString()}</p>
+          <p>created by: {post.user?.name} </p>
 
         </Typography>
-    </Box>
+      </Box>
     </Container>
   );
 };

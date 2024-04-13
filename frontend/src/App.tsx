@@ -54,6 +54,12 @@ const App = () => {
     setPosts(posts.concat(post));
   };
 
+  const addPostWithImage = async (image:File,postObject : Post) => {
+    const postWithImage = await postService
+    .postWithFile(image,postObject)
+    setPosts(posts.concat(postWithImage))
+  }
+
   
   const handleLogin = async (username: string, password: string) => {//handling login without event, passed to loginform component to handle state
     try {
@@ -98,7 +104,7 @@ const App = () => {
             <Route path="/login" element={<LoginForm onLogin={handleLogin}/>} />
             <Route path="/users" element={<UserList users={users}/>}/>
             <Route path="/users/:id" element={<UserPage users={users}/>} />
-            <Route path="/posts" element={<PostList posts={posts} createPost={addPost}/>}/>
+            <Route path="/posts" element={<PostList posts={posts} createPost={addPost} createPostWithImage={addPostWithImage}/>}/>
             <Route path="/posts/:id" element={<PostPage posts={posts}/>}/>
           </Routes>
         </div>

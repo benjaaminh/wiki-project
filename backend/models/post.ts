@@ -9,6 +9,10 @@ export interface IPost extends Document {
     content: string;
     imgSrc: string;
     user: IUser
+    img: {//image file
+      data: Buffer,
+      contentType: string
+    }
 }
 const postSchema = new Schema<IPost>({
   title: {
@@ -37,6 +41,10 @@ const postSchema = new Schema<IPost>({
     type: Schema.Types.ObjectId,
     ref:'User'
   },
+  img:{
+    data: Buffer,
+    contentType: String
+  }
 
 });
 //userSchema.plugin(uniqueValidator)

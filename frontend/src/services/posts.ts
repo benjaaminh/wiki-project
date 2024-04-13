@@ -30,5 +30,21 @@ const remove = async (id:string) => {
   const response = await axios.delete(`${ postUrl }/${id}`, config);
   return response.data;
 };
+//making a post with image file
+const postWithFile = async (image: File, newObject: any) => {
+  let formData = new FormData();
+  formData.append("image", image);
 
-export default { setToken, create, getAll, update, remove };
+  for (const key in newObject){
+    formData.append(key, newObject[key])
+  }
+  const response = await axios.post(postUrl, formData, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+      ...config.headers
+    }
+  })
+return response.data
+}
+
+export default { setToken, create, getAll, update, remove, postWithFile };

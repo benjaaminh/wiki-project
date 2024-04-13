@@ -13,13 +13,14 @@ import {
 import PostForm from "./PostForm";
   interface Props {
       posts: Post[] ,
-      createPost: (post: Post) => void
+      createPost: (post: Post) => void,
+      createPostWithImage: (image: File, post: Post) => void
   }
-  const PostList = ({ posts, createPost }: Props) => {
+  const PostList = ({ posts, createPost, createPostWithImage }: Props) => {
       // Check if users is undefined or null, and render a message or return null
       if (posts?.length<1) {
         return (
-            <PostForm createPost={createPost}/>
+            <PostForm createPost={createPost} createPostWithImage={createPostWithImage}/>
         ); // Or any other message you want to display
       }
       const  defaultTheme = createTheme();
@@ -42,7 +43,7 @@ import PostForm from "./PostForm";
               ))}
             </tbody>
           </table>
-          <PostForm createPost={createPost}/>
+          <PostForm createPost={createPost} createPostWithImage={createPostWithImage}/>
           </Container>
         </ThemeProvider>
       );

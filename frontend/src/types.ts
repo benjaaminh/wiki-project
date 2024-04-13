@@ -15,6 +15,12 @@ export interface Post {
     datePosted?: Date;
     dateEdited?: Date;
     content: string;
-    imgSrc: string;
+    imgSrc?: string;
     user?: User
+    img?: {
+        data: {
+            data: Buffer
+        }
+        contentType: string
+      }
 }
